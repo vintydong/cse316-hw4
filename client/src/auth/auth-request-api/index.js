@@ -31,13 +31,16 @@ export const loginUser = (email, password) => {
     })
 }
 export const logoutUser = () => api.get(`/logout/`)
-export const registerUser = (firstName, lastName, email, password, passwordVerify) => {
-    return api.post(`/register/`, {
+export const registerUser = async (firstName, lastName, email, password, passwordVerify) => {
+    return await api.post(`/register/`, {
         firstName : firstName,
         lastName : lastName,
         email : email,
         password : password,
         passwordVerify : passwordVerify
+    }).catch(err => {
+        console.log('Register Error')
+        return err.response;
     })
 }
 const apis = {

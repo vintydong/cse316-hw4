@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AuthContext from '../auth'
 import Copyright from './Copyright'
 
@@ -12,23 +12,34 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import MUIAccountModal from './MUIAccountModal';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
+    const [error, setError] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        auth.registerUser(
+
+        const promise = auth.registerUser(
             formData.get('firstName'),
             formData.get('lastName'),
             formData.get('email'),
             formData.get('password'),
             formData.get('passwordVerify')
         );
+
+        promise.then(res => {
+            if(res.status !== 200){
+                setError(res.data.errorMessage);
+            } else
+                setError('');
+        });
     };
 
     return (
+        <>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -120,5 +131,10 @@ export default function RegisterScreen() {
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+            <MUIAccountModal
+                open={error !== ''}
+                message={error}
+            />
+        </>
     );
 }
