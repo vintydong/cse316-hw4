@@ -1,41 +1,44 @@
-import { useContext, useState } from 'react';
-import AuthContext from '../auth'
-import Copyright from './Copyright'
+import { useContext, useState } from "react";
+import AuthContext from "../auth";
+import Copyright from "./Copyright";
 
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import MUIAccountModal from './MUIAccountModal';
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import MUIAccountModal from "./MUIAccountModal";
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
         const promise = auth.registerUser(
-            formData.get('firstName'),
-            formData.get('lastName'),
-            formData.get('email'),
-            formData.get('password'),
-            formData.get('passwordVerify')
+            formData.get("firstName"),
+            formData.get("lastName"),
+            formData.get("email"),
+            formData.get("password"),
+            formData.get("passwordVerify")
         );
 
-        promise.then(res => {
-            if(res.status !== 200){
+        promise.then((res) => {
+            if (res.status !== 200) {
                 setError(res.data.errorMessage);
-            } else
-                setError('');
+            } else setError("");
         });
+    };
+
+    const handleCloseModal = () => {
+        setError("");
     };
 
     return (
@@ -45,18 +48,23 @@ export default function RegisterScreen() {
                 <Box
                     sx={{
                         marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box
+                        component="form"
+                        noValidate
+                        onSubmit={handleSubmit}
+                        sx={{ mt: 3 }}
+                    >
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -132,8 +140,9 @@ export default function RegisterScreen() {
                 <Copyright sx={{ mt: 5 }} />
             </Container>
             <MUIAccountModal
-                open={error !== ''}
+                open={error !== ""}
                 message={error}
+                handleClose={handleCloseModal}
             />
         </>
     );
