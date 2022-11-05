@@ -10,11 +10,11 @@
     @author McKilla Gorilla
 */
 
-import axios from 'axios'
+import axios from "axios";
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'http://localhost:4000/auth',
-})
+    baseURL: "http://localhost:4000/auth",
+});
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
 // REQUEST METHOD (like get) AND PATH (like /register). SOME ALSO
@@ -24,30 +24,43 @@ const api = axios.create({
 // CUSTOM FILTERS FOR QUERIES
 
 export const getLoggedIn = () => api.get(`/loggedIn/`);
-export const loginUser = (email, password) => {
-    return api.post(`/login/`, {
-        email : email,
-        password : password
-    })
-}
-export const logoutUser = () => api.get(`/logout/`)
-export const registerUser = async (firstName, lastName, email, password, passwordVerify) => {
-    return await api.post(`/register/`, {
-        firstName : firstName,
-        lastName : lastName,
-        email : email,
-        password : password,
-        passwordVerify : passwordVerify
-    }).catch(err => {
-        console.log('Register Error')
-        return err.response;
-    })
-}
+export const loginUser = async (email, password) => {
+    return await api
+        .post(`/login/`, {
+            email: email,
+            password: password,
+        })
+        .catch((err) => {
+            console.log("Login Error");
+            return err.response;
+        });
+};
+export const logoutUser = () => api.get(`/logout/`);
+export const registerUser = async (
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordVerify
+) => {
+    return await api
+        .post(`/register/`, {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            passwordVerify: passwordVerify,
+        })
+        .catch((err) => {
+            console.log("Register Error");
+            return err.response;
+        });
+};
 const apis = {
     getLoggedIn,
     registerUser,
     loginUser,
-    logoutUser
-}
+    logoutUser,
+};
 
-export default apis
+export default apis;
