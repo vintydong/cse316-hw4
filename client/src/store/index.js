@@ -284,10 +284,13 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
+        // console.log('LOAD ID NAME PAIRS');
         async function asyncLoadIdNamePairs() {
             const response = await api.getPlaylistPairs();
+            // console.log('AAAA', response);
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
+                // console.log("CALLIGN STORE REDUCRE QITH NEW PAIRa");
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -320,6 +323,7 @@ function GlobalStoreContextProvider(props) {
     store.deleteList = function (id) {
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
+            // console.log("INSIDE DELETE LIST", response.data);
             if (response.data.success) {
                 store.loadIdNamePairs();
                 history.push("/");
