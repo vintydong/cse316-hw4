@@ -26,6 +26,7 @@ export const GlobalStoreActionType = {
     CREATE_NEW_LIST: "CREATE_NEW_LIST",
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
+    UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     EDIT_SONG: "EDIT_SONG",
@@ -141,6 +142,20 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: payload.playlist
                 });
             }
+            case GlobalStoreActionType.UNMARK_LIST_FOR_DELETION: {
+                // console.log('UNMARKING LSIT')
+                return setStore({
+                    currentModal : CurrentModal.DELETE_LIST,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
             // UPDATE A LIST
             case GlobalStoreActionType.SET_CURRENT_LIST: {
                 return setStore({
@@ -225,6 +240,11 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
+                // console.log('aaaa', playlist.name, newName);
+                if(playlist.name === newName){
+                    // console.log("SAME NAME; NO CHANGES");
+                    return;
+                }
                 playlist.name = newName;
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
@@ -319,6 +339,12 @@ function GlobalStoreContextProvider(props) {
             }
         }
         getListToDelete(id);
+    }
+    store.unmarkListForDeletion = id => {
+        storeReducer({
+            type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
+            payload: null
+        })
     }
     store.deleteList = function (id) {
         async function processDelete(id) {

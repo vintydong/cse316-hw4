@@ -15,10 +15,10 @@ import TextField from '@mui/material/TextField';
     @author McKilla Gorilla
 */
 function ListCard(props) {
+    const { idNamePair, selected } = props;
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
-    const [text, setText] = useState("");
-    const { idNamePair, selected } = props;
+    const [text, setText] = useState(idNamePair.name);
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -84,7 +84,7 @@ function ListCard(props) {
                 handleLoadList(event, idNamePair._id)
             }}
         >
-            <Box sx={{ p: 1, flexGrow: 1, overflow: 'clip'}}>{idNamePair.name}</Box>
+            <Box sx={{ p: 1, flexGrow: 1, overflow: 'clip', textOverflow: 'ellipsis'}}>{idNamePair.name}</Box>
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={handleToggleEdit} aria-label='edit'>
                     <EditIcon style={{fontSize:'48pt'}} />
@@ -112,11 +112,13 @@ function ListCard(props) {
                 className='list-card'
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
+                value={text}
+                // defaultValue={idNamePair.name}
                 inputProps={{style: {fontSize: 48}}}
                 InputLabelProps={{style: {fontSize: 24}}}
                 autoFocus
             />
+        // console.log('bb', text);
     }
     return (
         cardElement
