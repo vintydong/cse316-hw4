@@ -38,7 +38,7 @@ body {
     left: 0%;
 }
 
-#top5-banner {
+#playlister-banner {
     position: absolute;
     left: 0%;
     top: 0%;
@@ -64,7 +64,8 @@ body {
     padding-left: 10%;
     padding-top: 5%;
     padding-bottom: 5%;
-    height: 70%;
+    box-sizing: border-box;
+    height: 80%;
     text-align: center;
     vertical-align: center;
 }
@@ -74,8 +75,8 @@ body {
     float: right;
 }
 
-.top5-button,
-.top5-button-disabled {
+.playlister-button,
+.playlister-button-disabled {
     font-size: 36pt;
     border-width: 0px;
     float: left;
@@ -84,26 +85,27 @@ body {
     opacity: 100%;
 }
 
-.top5-button:hover {
+.playlister-button:hover {
     cursor: pointer;
     color: black;
 }
 
-.top5-button-disabled {
+.playlister-button-disabled {
     opacity: 0.25;
     cursor: not-allowed;
 }
 
-#top5-list-selector {
-    position: absolute;
+
+#playlister-list-selector {
+    /* position: absolute;
     left: 0%;
-    top: 10%;
+    top: 10%; */
     width: 100%;
     height: 80%;
     background-color: var(--swatch-primary);
 }
 
-#top5-workspace {
+#playlister-workspace {
     position: absolute;
     left: 0%;
     top: 10%;
@@ -112,10 +114,10 @@ body {
     background-color: var(--swatch-accent);
 }
 
-#top5-statusbar {
-    position: absolute;
+#playlister-statusbar {
+    /* position: absolute;
     left: 0%;
-    top: 90%;
+    top: 90%; */
     width: 100%;
     height: 10%;
     background-color: lightsalmon;
@@ -127,7 +129,7 @@ body {
 
 #list-selector-heading {
     position: absolute;
-    left: 5 0%;
+    left: 50%;
     top: 0%;
     /* width: 100%; */
     height: 10%;
@@ -145,14 +147,14 @@ body {
 }
 
 #list-selector-list {
-    position: absolute;
+    /* position: absolute;
     left: 0%;
-    top: 10%;
+    top: 10%; */
     width: 100%;
-    height: 90%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow: none;
 }
 
 .list-card,
@@ -220,8 +222,8 @@ body {
 }
 
 .item-number,
-.top5-item,
-.top5-item-dragged-to {
+.playlister-item,
+.playlister-item-dragged-to {
     display: flex;
     align-items: center;
     font-size: 48pt;
@@ -241,16 +243,16 @@ input {
     font-size: 20pt;
 }
 
-.top5-item,
-.top5-item-dragged-to {
+.playlister-item,
+.playlister-item-dragged-to {
     text-align: left;
     width: 95%;
     padding-left: 5%;
 }
-.top5-item {
+.playlister-item {
     background-color: var(--swatch-complement);
 }
-.top5-item-dragged-to {
+.playlister-item-dragged-to {
     background-color: var(--swatch-accent);
 }
 

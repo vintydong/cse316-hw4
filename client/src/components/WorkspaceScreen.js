@@ -24,10 +24,10 @@ function WorkspaceScreen() {
         modalJSX = <MUIRemoveSongModal />;
     }
     return (
-        <Box>
+        <Box sx={{'height': '80%'}}>
         <List 
             id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: 'background.paper' }}
+            sx={{ width: '100%', bgcolor: 'background.paper', height: '100%', boxSizing: 'border-box' }}
         >
             {
                 store.currentList.songs.map((song, index) => (
