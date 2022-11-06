@@ -41,12 +41,12 @@ export default function RegisterScreen() {
     };
 
     return (
-        <>
+        <div className="register-container">
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 2,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -143,6 +143,6 @@ export default function RegisterScreen() {
                 message={error}
                 handleClose={handleCloseModal}
             />
-        </>
+        </div>
     );
 }

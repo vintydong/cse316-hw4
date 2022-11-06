@@ -439,3 +439,7 @@ input {
         transform: rotate(0deg);
     }
 }
+
+.register-container {
+    background-color: inherit;
+}
