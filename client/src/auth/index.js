@@ -21,6 +21,7 @@ function AuthContextProvider(props) {
     const history = useHistory();
 
     useEffect(() => {
+        // console.log("Querying backend for logged in");
         auth.getLoggedIn();
     }, []);
 
@@ -28,6 +29,7 @@ function AuthContextProvider(props) {
         const { type, payload } = action;
         switch (type) {
             case AuthActionType.GET_LOGGED_IN: {
+                // console.log("CASE GET LOGGE DIN ");
                 return setAuth({
                     user: payload.user,
                     loggedIn: payload.loggedIn,
@@ -58,9 +60,10 @@ function AuthContextProvider(props) {
 
     auth.getLoggedIn = async function () {
         const response = await api.getLoggedIn();
+        // console.log(response);
         if (response.status === 200) {
             authReducer({
-                type: AuthActionType.SET_LOGGED_IN,
+                type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     loggedIn: response.data.loggedIn,
                     user: response.data.user,
