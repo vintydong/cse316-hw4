@@ -58,7 +58,6 @@ function GlobalStoreContextProvider(props) {
         listNameActive: false,
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
-        songMarkedForEdit: null,
     });
     const history = useHistory();
 
@@ -197,7 +196,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    songMarkedForEdit: payload.songIndex,
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
