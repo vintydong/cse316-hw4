@@ -21,7 +21,7 @@ function AuthContextProvider(props) {
     const history = useHistory();
 
     useEffect(() => {
-        // console.log("Querying backend for logged in");
+        console.log("Querying backend for logged in");
         auth.getLoggedIn();
     }, []);
 

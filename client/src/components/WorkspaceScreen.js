@@ -1,11 +1,12 @@
-import { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
-import SongCard from './SongCard.js'
-import MUIEditSongModal from './MUIEditSongModal'
-import MUIRemoveSongModal from './MUIRemoveSongModal'
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import { GlobalStoreContext } from '../store/index.js'
+import { useContext, useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import SongCard from "./SongCard.js";
+import MUIEditSongModal from "./MUIEditSongModal";
+import MUIRemoveSongModal from "./MUIRemoveSongModal";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import { GlobalStoreContext } from "../store/index.js";
+import MUIAccountModal from "./MUIAccountModal.js";
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -14,35 +15,58 @@ import { GlobalStoreContext } from '../store/index.js'
 */
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
+    const { id } = useParams();
+    const [loaded, setLoaded] = useState(store.currentList === null);
+
     store.history = useHistory();
-    
+
+    useEffect(() => {
+        if (!store.currentList) {
+            store.setCurrentList2(id).then((res) => {
+                if (!res.data.success) {
+                    setLoaded(false);
+                } else {
+                    setLoaded(true);
+                }
+            });
+            // store.history.push('/playlist/' + id);
+            // return <div id='playlist-cards'></div>;
+        }
+    }, []);
+
+    if (!loaded) return <MUIAccountModal open={true}/>
+    if (!store.currentList) return "";
+
     let modalJSX = "";
     if (store.isEditSongModalOpen()) {
         modalJSX = <MUIEditSongModal />;
-    }
-    else if (store.isRemoveSongModalOpen()) {
+    } else if (store.isRemoveSongModalOpen()) {
         modalJSX = <MUIRemoveSongModal />;
     }
     return (
-        <Box sx={{'height': '80%'}}>
-        <List 
-            id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: 'background.paper', height: '100%', boxSizing: 'border-box' }}
-        >
-            {
-                store.currentList.songs.map((song, index) => (
+        <Box sx={{ height: "80%" }}>
+            <List
+                id="playlist-cards"
+                sx={{
+                    width: "100%",
+                    bgcolor: "background.paper",
+                    height: "100%",
+                    boxSizing: "border-box",
+                    overflowY: "scroll",
+                }}
+            >
+                {store.currentList.songs.map((song, index) => (
                     <SongCard
-                        id={'playlist-song-' + (index)}
-                        key={'playlist-song-' + (index)}
+                        id={"playlist-song-" + index}
+                        key={"playlist-song-" + index}
                         index={index}
                         song={song}
                     />
-                ))  
-            }
-         </List>            
-         { modalJSX }
-         </Box>
-    )
+                ))}
+            </List>
+            {modalJSX}
+        </Box>
+    );
 }
 
 export default WorkspaceScreen;

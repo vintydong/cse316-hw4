@@ -401,7 +401,6 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
-
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
                     storeReducer({
@@ -413,6 +412,26 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncSetCurrentList(id);
+    }
+
+    store.setCurrentList2 = function (id) {
+        async function asyncSetCurrentList(id) {
+            let response = await api.getPlaylistById(id).catch(err => err.response);
+            console.log('2');
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                response = await api.updatePlaylistById(playlist._id, playlist);
+                if (response.data.success) {
+                    storeReducer({
+                        type: GlobalStoreActionType.SET_CURRENT_LIST,
+                        payload: playlist
+                    });
+                    // history.go(0);
+                }
+            }
+            return response;
+        }
+        return asyncSetCurrentList(id);
     }
 
     store.getPlaylistSize = function() {
@@ -548,6 +567,11 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
             payload: null
         });
+    }
+
+    store.clearAllTransactions = () => {
+        tps.clearAllTransactions();
+        console.log('Cleared all transactions');
     }
 
     return (
