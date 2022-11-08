@@ -16,7 +16,7 @@ import MUIAccountModal from "./MUIAccountModal.js";
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
     const { id } = useParams();
-    const [loaded, setLoaded] = useState(store.currentList === null);
+    const [loaded, setLoaded] = useState(true);
 
     store.history = useHistory();
 
@@ -24,6 +24,7 @@ function WorkspaceScreen() {
         if (!store.currentList) {
             store.setCurrentList2(id).then((res) => {
                 if (!res.data.success) {
+                    console.log('fail load');
                     setLoaded(false);
                 } else {
                     setLoaded(true);
@@ -34,8 +35,9 @@ function WorkspaceScreen() {
         }
     }, []);
 
-    if (!loaded) return <MUIAccountModal open={true}/>
-    if (!store.currentList) return "";
+    if (!store.currentList)
+        if (!loaded) return <MUIAccountModal open={true} message={"Cannot open someone else's playlist"} handleClose={() => store.history.push('/')}/>
+        else return '';
 
     let modalJSX = "";
     if (store.isEditSongModalOpen()) {
